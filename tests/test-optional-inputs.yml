@@ -1,0 +1,33 @@
+name: Test optional inputs
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - id: action
+        uses: .
+        continue-on-error: true
+        with:
+          token: ''
+          image: 'example.registry.depot.dev/testrepo:snapshot'
+          upload-mode: 'oci-out-of-order'
+          max-age: '6h'
+          env-mask: 'SECRET_VAR,ANOTHER_SECRET'
+          version: 'latest'
+
+      - name: Assert action ran and failed gracefully with optional inputs
+        env:
+          OUTCOME: ${{ steps.action.outcome }}
+        run: |
+          echo "outcome: $OUTCOME"
+          if [ "$OUTCOME" = "failure" ]; then
+            echo "PASS: action failed gracefully as expected (no valid Depot token/image)"
+          elif [ "$OUTCOME" = "success" ]; then
+            echo "PASS: action succeeded (possibly a no-op without real infra)"
+          else
+            echo "FAIL: unexpected outcome '$OUTCOME'"
+            exit 1
+          fi

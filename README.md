@@ -1,14 +1,33 @@
-# depot/snapshot-action
+# Depot CI Snapshot Action
 
-Create a custom Depot CI image including any filesystem changes inside the runner.
+Snapshot Depot CI filesystem changes and push filesystem snapshots to the Depot registry.
 
-Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at [https://github.com/depot/snapshot-action](https://github.com/depot/snapshot-action).
+## Usage
 
-## Versions
+```yaml
+jobs:
+  snapshot:
+    runs-on: depot-ubuntu-latest
+    steps:
+      - uses: depot/snapshot-action@v1
+        with:
+          image: orgid.registry.depot.dev/repo:tag
+```
 
-| Version | Tag | Upstream commit |
-|---------|-----|-----------------|
-| v1.2.0 | [`v1.2.0`](https://github.com/chainguard-actions/depot-snapshot-action/tree/v1.2.0) | [`694856d`](https://github.com/depot/snapshot-action/commit/694856daabad8a52395687699cce7b9457ff8f63) |
+## Inputs
+
+| Input      | Required | Default                 | Description                                                     |
+| ---------- | -------- | ----------------------- | --------------------------------------------------------------- |
+| `token`    | No       | `''`                    | Depot API token used as registry password.                      |
+| `image`    | **Yes**  | —                       | Full image reference (e.g. `orgid.registry.depot.dev/repo:tag`) |
+| `base`     | No       | `/dev/vdb`              | Base block device                                               |
+| `upper`    | No       | `/rw/.snap/upper`       | Upper directory for overlay                                     |
+| `snapshot` | No       | `/rw/overlay:/rw/.snap` | Overlay:snap mapping                                            |
+| `version`  | No       | `latest`                | Snapshot binary version                                         |
+
+## License
+
+MIT License - see [LICENSE](LICENSE) for details.
 
 ## Privacy
 

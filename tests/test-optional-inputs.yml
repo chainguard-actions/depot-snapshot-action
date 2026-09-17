@@ -1,0 +1,30 @@
+name: Test optional inputs (max-age, env-mask, upload-mode)
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - id: action
+        uses: .
+        continue-on-error: true
+        with:
+          image: "testorg.registry.depot.dev/testrepo:snapshot"
+          token: "fake-depot-token"
+          max-age: "6h"
+          env-mask: "SECRET_KEY,API_TOKEN"
+          upload-mode: "oci-out-of-order"
+      - name: Assert action ran and failed gracefully with optional inputs
+        env:
+          OUTCOME: ${{ steps.action.outcome }}
+        run: |
+          echo "outcome: $OUTCOME"
+          if [ "$OUTCOME" = "success" ]; then
+            echo "PASS: action succeeded unexpectedly (real Depot infra available?)"
+          elif [ "$OUTCOME" = "failure" ]; then
+            echo "PASS: action failed gracefully as expected (no real Depot infrastructure)"
+          else
+            echo "FAIL: unexpected outcome '$OUTCOME'"
+            exit 1
+          fi

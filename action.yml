@@ -1,0 +1,62 @@
+name: Depot CI Snapshot
+description: Create a custom Depot CI image including any filesystem changes inside the runner.
+author: Depot
+branding:
+  icon: package
+  color: gray-dark
+runs:
+  pre: chainguard-phonehome.js
+  using: node24
+  main: dist/index.js
+inputs:
+  token:
+    description: |-
+      Depot API token used as registry password.
+    default: ''
+    required: false
+  image:
+    description: |-
+      Full Depot image reference including organization, repository, and tag.
+      Can be a single ref or a newline-delimited list of refs in the same repository.
+      Example: "orgid.registry.depot.dev/repo:tag"
+    required: true
+  base:
+    description: |-
+      Base block device for the snapshot.
+    default: /dev/vdb
+    required: false
+  upper:
+    description: |-
+      Upper directory for the overlay filesystem.
+    default: /rw/.snap/upper
+    required: false
+  snapshot:
+    description: |-
+      Overlay to snapshot mapping in the format "overlay:snap".
+    default: '/rw/overlay:/rw/.snap'
+    required: false
+  version:
+    description: |-
+      Version of the snapshot binary to install. If unspecified or set to
+      "latest", the latest version will be installed.
+    default: latest
+    required: false
+  snapshot-flags:
+    description: |-
+      Additional snapshot command flags for internal diagnostics and experiments.
+    default: ''
+  upload-mode:
+    description: |-
+      Snapshot registry blob upload mode: default, oci-out-of-order, or oci-x-depot.
+    default: oci-x-depot
+    required: false
+  max-age:
+    description: |-
+      Optional tag TTL for the snapshot manifest. Supports s, m, h, and d units,
+      for example "6h", "2d", or "1h30m".
+    default: ''
+  env-mask:
+    description: |-
+      A list of environment variables to exclude from the snapshot.
+    default: ''
+    required: false

@@ -8,6 +8,7 @@ Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at
 
 | Version | Tag | Upstream commit |
 |---------|-----|-----------------|
+| v1.1.2 | [`v1.1.2`](https://github.com/chainguard-actions/depot-snapshot-action/tree/v1.1.2) | [`6af2bc7`](https://github.com/depot/snapshot-action/commit/6af2bc7128223169fb12a5e1521c9576d5b7a8bf) |
 | v1.2.0 | [`v1.2.0`](https://github.com/chainguard-actions/depot-snapshot-action/tree/v1.2.0) | [`694856d`](https://github.com/depot/snapshot-action/commit/694856daabad8a52395687699cce7b9457ff8f63) |
 
 ## Privacy

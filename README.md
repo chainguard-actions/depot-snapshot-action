@@ -1,17 +1,33 @@
-# depot/snapshot-action
+# Depot CI Snapshot Action
 
-Create a custom Depot CI image including any filesystem changes inside the runner.
+Snapshot Depot CI filesystem changes and push filesystem snapshots to the Depot registry.
 
-Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at [https://github.com/depot/snapshot-action](https://github.com/depot/snapshot-action).
+## Usage
 
-## Versions
+```yaml
+jobs:
+  snapshot:
+    runs-on: depot-ubuntu-latest
+    steps:
+      - uses: depot/snapshot-action@v1
+        with:
+          image: orgid.registry.depot.dev/repo:tag
+```
 
-| Version | Tag | Upstream commit |
-|---------|-----|-----------------|
-| v1.1.0 | [`v1.1.0`](https://github.com/chainguard-actions/depot-snapshot-action/tree/v1.1.0) | [`4de1a47`](https://github.com/depot/snapshot-action/commit/4de1a478f7e1e8341a3e75934ad47d658673766e) |
-| v1.1.2 | [`v1.1.2`](https://github.com/chainguard-actions/depot-snapshot-action/tree/v1.1.2) | [`6af2bc7`](https://github.com/depot/snapshot-action/commit/6af2bc7128223169fb12a5e1521c9576d5b7a8bf) |
-| v1.2.0 | [`v1.2.0`](https://github.com/chainguard-actions/depot-snapshot-action/tree/v1.2.0) | [`694856d`](https://github.com/depot/snapshot-action/commit/694856daabad8a52395687699cce7b9457ff8f63) |
-| v1.2.1 | [`v1.2.1`](https://github.com/chainguard-actions/depot-snapshot-action/tree/v1.2.1) | [`a082cba`](https://github.com/depot/snapshot-action/commit/a082cbabd407afdf324a7b4f41889795636f4b24) |
+## Inputs
+
+| Input      | Required | Default                 | Description                                                     |
+| ---------- | -------- | ----------------------- | --------------------------------------------------------------- |
+| `token`    | No       | `''`                    | Depot API token used as registry password.                      |
+| `image`    | **Yes**  | —                       | Full image reference (e.g. `orgid.registry.depot.dev/repo:tag`) |
+| `base`     | No       | `/dev/vdb`              | Base block device                                               |
+| `upper`    | No       | `/rw/.snap/upper`       | Upper directory for overlay                                     |
+| `snapshot` | No       | `/rw/overlay:/rw/.snap` | Overlay:snap mapping                                            |
+| `version`  | No       | `latest`                | Snapshot binary version                                         |
+
+## License
+
+MIT License - see [LICENSE](LICENSE) for details.
 
 ## Privacy
 
